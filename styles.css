@@ -953,9 +953,4 @@ footer {
     opacity: 1;
     transform: none;
   }
-
-  .entry-background {
-    filter: brightness(0.72);
-    transform: none;
-  }
 }
