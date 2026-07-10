@@ -9,7 +9,7 @@ const reduceMotion = window.matchMedia(
 
 
 // Hold time: 2.8 seconds
-const HOLD_DURATION = reduceMotion ? 250 : 2800;
+const HOLD_DURATION = 2800;
 
 let holdStart = 0;
 let animationFrame = null;
@@ -59,11 +59,11 @@ function finishEntry() {
     entryScreen.classList.add('is-opening');
     document.body.classList.remove('page-locked');
     sessionStorage.setItem('weddingInvitationOpened', 'yes');
-  }, reduceMotion ? 40 : 700);
+  }, 700);
 
   window.setTimeout(() => {
     entryScreen.hidden = true;
-  }, reduceMotion ? 100 : 3100);
+  }, 3100);
 }
 
 function resetHold() {
