@@ -932,12 +932,19 @@ footer {
   }
 
   .entry-content h2 {
-    font-size: 4rem;
+    font-size: 3.2rem;
+    white-space: nowrap;
   }
 
   .hold-ring {
     width: 102px;
     height: 102px;
+  }
+}
+
+@media (max-width: 390px) {
+  .entry-content h2 {
+    font-size: 2.75rem;
   }
 }
 
