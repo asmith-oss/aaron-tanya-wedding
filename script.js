@@ -63,7 +63,7 @@ function finishEntry() {
 
   window.setTimeout(() => {
     entryScreen.hidden = true;
-  }, reduceMotion ? 100 : 2800);
+  }, reduceMotion ? 100 : 3100);
 }
 
 function resetHold() {
