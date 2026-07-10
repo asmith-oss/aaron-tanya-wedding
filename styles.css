@@ -1153,3 +1153,62 @@ footer {
     font-size: 0.64rem;
   }
 }
+/* MUSIC SECTION */
+
+.music-section {
+  background: var(--black);
+  text-align: center;
+  padding-top: 70px;
+  padding-bottom: 90px;
+}
+
+.music-section h2 {
+  margin-bottom: 8px;
+  font-size: clamp(3rem, 6vw, 5rem);
+  line-height: 1;
+}
+
+.music-credit {
+  margin: 0 0 28px;
+  color: var(--muted);
+  font-size: 0.9rem;
+  letter-spacing: 0.05em;
+}
+
+.spotify-player-wrap {
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 14px;
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.025);
+  box-shadow: 0 20px 70px rgba(0, 0, 0, 0.35);
+}
+
+.spotify-player-wrap iframe {
+  display: block;
+  width: 100%;
+  height: 152px;
+  border: 0;
+  border-radius: 12px;
+}
+
+@media (max-width: 560px) {
+  .music-section {
+    padding-top: 48px;
+    padding-bottom: 58px;
+  }
+
+  .music-section h2 {
+    font-size: 2.8rem;
+  }
+
+  .spotify-player-wrap {
+    padding: 8px;
+    border-radius: 14px;
+  }
+
+  .spotify-player-wrap iframe {
+    height: 152px;
+  }
+}
