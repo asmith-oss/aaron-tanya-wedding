@@ -7,6 +7,7 @@ const reduceMotion = window.matchMedia(
   '(prefers-reduced-motion: reduce)'
 ).matches;
 
+
 // Hold time: 2.8 seconds
 const HOLD_DURATION = reduceMotion ? 250 : 2800;
 
