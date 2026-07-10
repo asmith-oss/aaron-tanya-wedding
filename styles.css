@@ -254,6 +254,10 @@ a {
   overflow: hidden;
   background: var(--black);
 }
+.hero-content .eyebrow {
+  font-size: 1rem;
+  letter-spacing: 0.32em;
+}
 
 .hero-image {
   position: absolute;
