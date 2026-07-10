@@ -157,7 +157,7 @@ h1 span { font-style: italic; font-weight: 400; }
   gap: clamp(12px, 2vw, 28px);
   align-items: start;
 }
-.photo { min-height: 300px; overflow: hidden; background: #151515; }
+.photo { min-height: 300px; overflow: hidden; background: transparent; }
 .photo img { transition: transform .8s ease; }
 .photo:hover img { transform: scale(1.025); }
 .photo-wide { min-height: 430px; }
