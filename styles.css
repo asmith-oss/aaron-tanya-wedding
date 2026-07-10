@@ -688,6 +688,26 @@ h1 span {
   margin-top: -80px;
 }
 
+.collage-grid-secondary > :nth-child(4) {
+  grid-column: 1 / 8;
+  margin-top: 30px;
+}
+
+.collage-grid-secondary > :nth-child(5) {
+  grid-column: 8 / 13;
+  margin-top: 100px;
+}
+
+.collage-grid-secondary > :nth-child(6) {
+  grid-column: 2 / 6;
+  margin-top: 20px;
+}
+
+.collage-grid-secondary > :nth-child(7) {
+  grid-column: 6 / 13;
+  margin-top: -40px;
+}
+
 /* FINAL RSVP */
 
 .final-rsvp {
