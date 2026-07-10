@@ -26,6 +26,10 @@ body {
   line-height: 1.7;
 }
 
+body.page-locked {
+  overflow: hidden;
+}
+
 img {
   display: block;
   width: 100%;
@@ -35,6 +39,189 @@ img {
 
 a {
   color: inherit;
+}
+
+
+/* INTERACTIVE ENTRY */
+.entry-screen {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  background: var(--black);
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 1.1s ease, visibility 1.1s ease;
+}
+
+.entry-screen[hidden] {
+  display: none;
+}
+
+.entry-screen.is-opening {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.entry-background {
+  position: absolute;
+  inset: -4%;
+  width: 108%;
+  height: 108%;
+  object-fit: cover;
+  filter: blur(15px) brightness(0.58);
+  transform: scale(1.06);
+  transition: filter 1.3s ease, transform 1.3s ease;
+}
+
+.entry-screen.is-unlocking .entry-background {
+  filter: blur(0) brightness(0.86);
+  transform: scale(1);
+}
+
+.entry-shade {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at center, rgba(0,0,0,.12), rgba(0,0,0,.66) 68%, rgba(0,0,0,.9));
+  transition: opacity 1.1s ease;
+}
+
+.entry-screen.is-unlocking .entry-shade {
+  opacity: 0.35;
+}
+
+.entry-content {
+  position: relative;
+  z-index: 2;
+  width: min(92vw, 760px);
+  padding: 36px 24px;
+  text-align: center;
+  text-shadow: 0 2px 24px rgba(0,0,0,.8);
+}
+
+.entry-kicker,
+.entry-date,
+.hold-label,
+.entry-instruction,
+.entry-skip {
+  text-transform: uppercase;
+  letter-spacing: .2em;
+}
+
+.entry-kicker {
+  margin: 0 0 14px;
+  color: var(--champagne);
+  font-size: .68rem;
+}
+
+.entry-content h2 {
+  margin: 0;
+  font-family: var(--serif);
+  font-size: clamp(4rem, 10vw, 7.5rem);
+  font-weight: 400;
+  line-height: .9;
+}
+
+.entry-content h2 em {
+  color: var(--champagne);
+  font-weight: 400;
+}
+
+.entry-date {
+  margin: 20px 0 34px;
+  font-size: .72rem;
+}
+
+.hold-button {
+  --hold-progress: 0;
+  display: inline-grid;
+  justify-items: center;
+  gap: 12px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--ivory);
+  cursor: pointer;
+  touch-action: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.hold-ring {
+  position: relative;
+  display: grid;
+  width: 116px;
+  height: 116px;
+  place-items: center;
+  border-radius: 50%;
+  background: rgba(5,5,5,.25);
+  box-shadow: 0 0 0 1px rgba(242,237,227,.12), 0 0 42px rgba(188,168,131,.08);
+  transition: box-shadow .3s ease, transform .3s ease;
+}
+
+.hold-button.is-holding .hold-ring {
+  transform: scale(.98);
+  box-shadow: 0 0 0 1px rgba(242,237,227,.2), 0 0 54px rgba(188,168,131,.25);
+}
+
+.hold-ring svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+}
+
+.hold-ring circle {
+  fill: none;
+  stroke-width: 2.5;
+}
+
+.hold-ring-track {
+  stroke: rgba(242,237,227,.24);
+}
+
+.hold-ring-progress {
+  stroke: var(--champagne);
+  stroke-linecap: round;
+  stroke-dasharray: 326.73;
+  stroke-dashoffset: calc(326.73 * (1 - var(--hold-progress)));
+}
+
+.key-icon {
+  color: var(--champagne);
+  font-size: 1.7rem;
+  line-height: 1;
+}
+
+.hold-label {
+  font-size: .67rem;
+}
+
+.entry-instruction {
+  margin: 16px 0 0;
+  color: rgba(242,237,227,.72);
+  font-size: .58rem;
+}
+
+.entry-skip {
+  margin-top: 22px;
+  padding: 6px 0;
+  border: 0;
+  border-bottom: 1px solid rgba(242,237,227,.35);
+  background: transparent;
+  color: rgba(242,237,227,.7);
+  font: inherit;
+  font-size: .56rem;
+  cursor: pointer;
+}
+
+.entry-skip:hover,
+.entry-skip:focus-visible {
+  color: var(--ivory);
+  border-color: var(--ivory);
 }
 
 /* HERO */
@@ -634,6 +821,11 @@ footer {
     opacity: 1;
     transform: none;
   }
+
+  .entry-background {
+    filter: brightness(.72);
+    transform: none;
+  }
 }
 
 @media (max-width: 560px) {
@@ -754,4 +946,18 @@ footer {
   footer {
     padding: 22px 14px;
   }
+
+  .entry-content {
+    padding: 24px 16px;
+  }
+
+  .entry-content h2 {
+    font-size: 4rem;
+  }
+
+  .hold-ring {
+    width: 102px;
+    height: 102px;
+  }
+
 }

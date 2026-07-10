@@ -12,7 +12,32 @@
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
 </head>
-<body>
+<body class="page-locked">
+  <div class="entry-screen" id="entryScreen" role="dialog" aria-modal="true" aria-labelledby="entryTitle">
+    <img class="entry-background" src="images/hero.jpg" alt="" aria-hidden="true" />
+    <div class="entry-shade"></div>
+
+    <div class="entry-content">
+      <p class="entry-kicker">A private celebration</p>
+      <h2 id="entryTitle">Aaron <em>&amp;</em> Tanya</h2>
+      <p class="entry-date">September 12, 2026</p>
+
+      <button class="hold-button" id="holdButton" type="button" aria-describedby="holdInstruction">
+        <span class="hold-ring" aria-hidden="true">
+          <svg viewBox="0 0 120 120" focusable="false">
+            <circle class="hold-ring-track" cx="60" cy="60" r="52"></circle>
+            <circle class="hold-ring-progress" cx="60" cy="60" r="52"></circle>
+          </svg>
+          <span class="key-icon">✦</span>
+        </span>
+        <span class="hold-label">Press and hold</span>
+      </button>
+
+      <p class="entry-instruction" id="holdInstruction">Hold for a moment to open the invitation</p>
+      <button class="entry-skip" id="entrySkip" type="button">Enter without animation</button>
+    </div>
+  </div>
+
   <header class="hero" id="top">
     <img class="hero-image" src="images/hero.jpg" alt="Aaron and Tanya" />
     <div class="hero-overlay"></div>
