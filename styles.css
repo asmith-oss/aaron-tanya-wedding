@@ -635,3 +635,123 @@ footer {
     transform: none;
   }
 }
+
+@media (max-width: 560px) {
+  .nav-wrap {
+    padding: 14px;
+  }
+
+  .hero {
+    min-height: 88svh;
+  }
+
+  .hero-content {
+    padding: 90px 14px 70px;
+  }
+
+  h1 {
+    font-size: 3.7rem;
+    margin-bottom: 20px;
+  }
+
+  .eyebrow {
+    margin-bottom: 12px;
+  }
+
+  .hero-location {
+    margin-bottom: 24px;
+  }
+
+  .section {
+    padding: 58px 14px;
+  }
+
+  .section-heading {
+    margin-bottom: 34px;
+  }
+
+  .invitation h2,
+  .final-rsvp h2 {
+    font-size: 3.1rem;
+    margin-bottom: 18px;
+  }
+
+  .invitation-copy {
+    font-size: 1.2rem;
+    margin-bottom: 34px;
+  }
+
+  .date-lockup {
+    gap: 8px;
+    padding: 12px 0;
+    margin-bottom: 30px;
+  }
+
+  .date-lockup strong {
+    font-size: 2.8rem;
+  }
+
+  .collage {
+    padding-top: 12px;
+    padding-bottom: 12px;
+  }
+
+  .collage-grid {
+    gap: 10px;
+  }
+
+  .photo,
+  .photo-wide {
+    min-height: 280px;
+  }
+
+  .photo-tall {
+    min-height: 390px;
+  }
+
+  .collage-quote {
+    padding: 22px 10px;
+    font-size: 1.55rem;
+  }
+
+  .detail-card {
+    min-height: auto;
+    padding: 28px 22px;
+  }
+
+  .detail-card h3 {
+    font-size: 2rem;
+    margin-bottom: 16px;
+  }
+
+  .destination {
+    gap: 28px;
+  }
+
+  .destination-image {
+    min-height: 300px;
+  }
+
+  .destination-copy h2 {
+    margin-bottom: 20px;
+  }
+
+  .button-row,
+  .button-row.left {
+    margin-top: 24px;
+    gap: 9px;
+  }
+
+  .button {
+    min-height: 46px;
+    padding: 11px 18px;
+  }
+
+  .final-rsvp {
+    min-height: 55vh;
+  }
+
+  footer {
+    padding: 22px 14px;
+  }
+}
