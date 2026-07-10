@@ -1,0 +1,16 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Aaron and Tanya Wedding//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:aaron-tanya-wedding-20260912@example.com
+DTSTAMP:20260709T230000Z
+DTSTART:20260912T230000Z
+DTEND:20260913T040000Z
+SUMMARY:Aaron & Tanya's Wedding
+DESCRIPTION:Ceremony at 4:00 PM. Dinner and celebration immediately following. Guests are encouraged to arrive by 3:00 PM.
+LOCATION:Oak Knoll Village Clubhouse\, 28192 O'Neill Drive\, Ladera Ranch\, CA 92694
+URL:https://docs.google.com/forms/d/e/1FAIpQLSeoKAJlu4cMqBg7XUTzzEQyMOEs7BAewZNlyhiRSMKCElDC9w/viewform?usp=publish-editor
+END:VEVENT
+END:VCALENDAR
