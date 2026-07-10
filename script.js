@@ -58,11 +58,11 @@ function finishEntry() {
     entryScreen.classList.add('is-opening');
     document.body.classList.remove('page-locked');
     sessionStorage.setItem('weddingInvitationOpened', 'yes');
-  }, reduceMotion ? 40 : 220);
+  }, reduceMotion ? 40 : 700);
 
   window.setTimeout(() => {
     entryScreen.hidden = true;
-  }, reduceMotion ? 100 : 1500);
+  }, reduceMotion ? 100 : 2800);
 }
 
 function resetHold() {
