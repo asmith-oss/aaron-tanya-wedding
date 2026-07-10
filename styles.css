@@ -272,6 +272,140 @@ a {
   border-color: var(--ivory);
 }
 
+
+/* DISCREET SPOTIFY MUSIC CONTROL */
+
+.spotify-embed-hidden {
+  position: fixed;
+  top: 0;
+  left: -10000px;
+  width: 152px;
+  height: 152px;
+  overflow: hidden;
+  opacity: 0.001;
+  pointer-events: none;
+}
+
+.spotify-embed-hidden iframe {
+  width: 152px !important;
+  height: 152px !important;
+  border: 0;
+}
+
+.music-toggle {
+  position: fixed;
+  right: 18px;
+  bottom: 18px;
+  z-index: 80;
+  display: inline-flex;
+  align-items: center;
+  gap: 11px;
+  max-width: calc(100vw - 36px);
+  padding: 11px 16px;
+  border: 1px solid rgba(242, 237, 227, 0.34);
+  border-radius: 999px;
+  background: rgba(5, 5, 5, 0.78);
+  color: var(--ivory);
+  font: inherit;
+  text-align: left;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.28);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  cursor: pointer;
+  opacity: 0;
+  transform: translateY(12px);
+  transition:
+    opacity 0.8s ease,
+    transform 0.8s ease,
+    background 0.3s ease,
+    color 0.3s ease,
+    border-color 0.3s ease;
+}
+
+.music-toggle[hidden] {
+  display: none;
+}
+
+.music-toggle.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.music-toggle:hover,
+.music-toggle:focus-visible {
+  background: var(--ivory);
+  color: var(--black);
+  border-color: var(--ivory);
+}
+
+.music-icon {
+  flex: 0 0 auto;
+  color: var(--champagne);
+  font-size: 1.1rem;
+  line-height: 1;
+}
+
+.music-toggle:hover .music-icon,
+.music-toggle:focus-visible .music-icon {
+  color: var(--black);
+}
+
+.music-copy {
+  display: grid;
+  line-height: 1.15;
+}
+
+.music-label {
+  font-size: 0.67rem;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+}
+
+.music-credit {
+  margin-top: 3px;
+  color: var(--muted);
+  font-size: 0.56rem;
+  letter-spacing: 0.04em;
+  text-transform: none;
+}
+
+.music-toggle:hover .music-credit,
+.music-toggle:focus-visible .music-credit {
+  color: rgba(5, 5, 5, 0.68);
+}
+
+.music-toggle.is-playing .music-icon {
+  animation: musicPulse 1.8s ease-in-out infinite;
+}
+
+@keyframes musicPulse {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.16);
+  }
+}
+
+@media (max-width: 560px) {
+  .music-toggle {
+    right: 12px;
+    bottom: 12px;
+    padding: 10px 13px;
+  }
+
+  .music-label {
+    font-size: 0.62rem;
+  }
+
+  .music-credit {
+    font-size: 0.52rem;
+  }
+}
+
+
 /* HERO */
 
 .hero {
