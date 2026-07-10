@@ -40,6 +40,24 @@
     </div>
   </div>
 
+
+  <!-- Discreet Spotify music control -->
+  <div id="spotifyEmbed" class="spotify-embed-hidden" aria-hidden="true"></div>
+
+  <button
+    class="music-toggle"
+    id="musicToggle"
+    type="button"
+    aria-label="Play our song, It Is Well, on Spotify"
+    hidden
+  >
+    <span class="music-icon" aria-hidden="true">♫</span>
+    <span class="music-copy">
+      <span class="music-label" id="musicLabel">Play Our Song</span>
+      <span class="music-credit">It Is Well · Spotify</span>
+    </span>
+  </button>
+
   <header class="hero" id="top">
     <img class="hero-image" src="images/hero.jpg" alt="Aaron and Tanya" />
     <div class="hero-overlay"></div>
@@ -262,5 +280,6 @@
   </footer>
 
   <script src="script.js"></script>
+  <script src="https://open.spotify.com/embed/iframe-api/v1" async></script>
 </body>
 </html>
