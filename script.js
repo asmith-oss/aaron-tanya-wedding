@@ -18,7 +18,7 @@ const reduceMotion = window.matchMedia(
   '(prefers-reduced-motion: reduce)'
 ).matches;
 
-const HOLD_DURATION = reduceMotion ? 450 : 2800;
+const HOLD_DURATION = 2800;
 const ENTRY_OPEN_DELAY = reduceMotion ? 0 : 700;
 const ENTRY_HIDE_DELAY = reduceMotion ? 80 : 3100;
 
