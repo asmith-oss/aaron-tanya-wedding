@@ -19,8 +19,8 @@ const holdInstruction =
 const entrySkip =
   document.getElementById('entrySkip');
 
-const spotifyEmbed =
-  document.getElementById('spotifyEmbed');
+const weddingAudio =
+  document.getElementById('weddingAudio');
 
 /* -------------------------------------------------
    ACCESSIBILITY + TIMING
@@ -31,7 +31,7 @@ const reduceMotion = window.matchMedia(
 ).matches;
 
 /*
-  This remains exactly 2.8 seconds for everyone.
+  Keep the original hold time exactly as it was.
 */
 const HOLD_DURATION = 2800;
 
@@ -42,73 +42,99 @@ const ENTRY_HIDE_DELAY =
   reduceMotion ? 80 : 3100;
 
 /* -------------------------------------------------
-   SPOTIFY
+   WEDDING MUSIC
 ------------------------------------------------- */
 
-const SPOTIFY_TRACK_URI =
-  'spotify:track:7E3YInQ8ZQuZgQhu2Sfito';
+const MUSIC_VOLUME = 0.42;
+const MUSIC_FADE_DURATION = 1800;
 
-let spotifyController = null;
-let spotifyReady = false;
-let pendingSpotifyPlayback = false;
+let audioLoadStarted = false;
+let audioFadeFrame = null;
 
-/*
-  Spotify calls this function after its iframe API loads.
-
-  The controller creates the visible Spotify player inside
-  the music section. It does not create a floating button
-  or a player at the top of the page.
-*/
-window.onSpotifyIframeApiReady = (IFrameAPI) => {
-  if (!spotifyEmbed) return;
-
-  const options = {
-    width: '100%',
-    height: '152',
-    uri: SPOTIFY_TRACK_URI
-  };
-
-  IFrameAPI.createController(
-    spotifyEmbed,
-    options,
-    (controller) => {
-      spotifyController = controller;
-
-      controller.addListener('ready', () => {
-        spotifyReady = true;
-
-        /*
-          This is a backup attempt in case Spotify finished
-          loading immediately after the invitation opened.
-        */
-        if (pendingSpotifyPlayback) {
-          pendingSpotifyPlayback = false;
-          controller.play();
-        }
-      });
-    }
-  );
-};
-
-function startSpotifyFromEntry() {
+function prepareWeddingAudio() {
   if (
-    spotifyController &&
-    spotifyReady
+    !weddingAudio ||
+    audioLoadStarted
   ) {
-    /*
-      This is called directly from the guest's release
-      or click action, giving autoplay its best chance.
-    */
-    spotifyController.play();
-    pendingSpotifyPlayback = false;
     return;
   }
 
+  audioLoadStarted = true;
+
   /*
-    Spotify may still be initializing. Do not delay or
-    change the invitation unlock timing.
+    The audio element uses preload="none", so this begins
+    buffering only after the guest presses the entry button.
   */
-  pendingSpotifyPlayback = true;
+  weddingAudio.load();
+}
+
+function stopAudioFade() {
+  if (audioFadeFrame === null) return;
+
+  cancelAnimationFrame(audioFadeFrame);
+  audioFadeFrame = null;
+}
+
+function fadeInWeddingAudio() {
+  if (!weddingAudio) return;
+
+  stopAudioFade();
+
+  const fadeStartedAt =
+    performance.now();
+
+  function updateAudioVolume(currentTime) {
+    const elapsed =
+      currentTime - fadeStartedAt;
+
+    const progress = Math.min(
+      elapsed / MUSIC_FADE_DURATION,
+      1
+    );
+
+    weddingAudio.volume =
+      MUSIC_VOLUME * progress;
+
+    if (progress < 1) {
+      audioFadeFrame =
+        requestAnimationFrame(
+          updateAudioVolume
+        );
+    } else {
+      weddingAudio.volume =
+        MUSIC_VOLUME;
+
+      audioFadeFrame = null;
+    }
+  }
+
+  audioFadeFrame =
+    requestAnimationFrame(
+      updateAudioVolume
+    );
+}
+
+async function startWeddingAudio() {
+  if (!weddingAudio) return;
+
+  prepareWeddingAudio();
+  stopAudioFade();
+
+  weddingAudio.volume = 0;
+
+  try {
+    await weddingAudio.play();
+    fadeInWeddingAudio();
+  } catch (error) {
+    /*
+      Most browsers should allow this because it is called
+      directly from the release or skip-button interaction.
+    */
+    console.warn(
+      'The browser prevented the wedding music from starting.',
+      error
+    );
+  }
 }
 
 /* -------------------------------------------------
@@ -147,7 +173,10 @@ function saveInvitationOpenedState() {
       'yes'
     );
   } catch (_) {
-    // Continue if storage is unavailable.
+    /*
+      Continue normally if browser storage
+      is unavailable.
+    */
   }
 }
 
@@ -158,8 +187,10 @@ function saveInvitationOpenedState() {
 function setHoldProgress(value) {
   if (!holdButton) return;
 
-  const safeValue =
-    Math.max(0, Math.min(1, value));
+  const safeValue = Math.max(
+    0,
+    Math.min(1, value)
+  );
 
   holdButton.style.setProperty(
     '--hold-progress',
@@ -172,7 +203,8 @@ function setEntryMessage(
   instructionText
 ) {
   if (holdLabel) {
-    holdLabel.textContent = labelText;
+    holdLabel.textContent =
+      labelText;
   }
 
   if (holdInstruction) {
@@ -181,7 +213,7 @@ function setEntryMessage(
   }
 }
 
-function releasePointerCapture() {
+function releaseActivePointer() {
   if (
     !holdButton ||
     activePointerId === null
@@ -201,7 +233,10 @@ function releasePointerCapture() {
       );
     }
   } catch (_) {
-    // The browser may have already released it.
+    /*
+      The browser may already have released
+      pointer capture.
+    */
   }
 
   activePointerId = null;
@@ -212,7 +247,12 @@ function releasePointerCapture() {
 ------------------------------------------------- */
 
 function setReadyState() {
-  if (!holdButton || isUnlocked) return;
+  if (
+    !holdButton ||
+    isUnlocked
+  ) {
+    return;
+  }
 
   isHolding = false;
   isReadyToOpen = true;
@@ -251,7 +291,7 @@ function resetHold() {
 
   holdAnimationFrame = null;
 
-  releasePointerCapture();
+  releaseActivePointer();
 
   holdButton?.classList.remove(
     'is-holding',
@@ -289,7 +329,9 @@ function updateHold(currentTime) {
   }
 
   holdAnimationFrame =
-    requestAnimationFrame(updateHold);
+    requestAnimationFrame(
+      updateHold
+    );
 }
 
 function beginHold(event) {
@@ -322,8 +364,15 @@ function beginHold(event) {
 
   event.preventDefault();
 
+  /*
+    Begin buffering the MP3 during the existing
+    2.8-second hold period.
+  */
+  prepareWeddingAudio();
+
   isHolding = true;
-  holdStartTime = performance.now();
+  holdStartTime =
+    performance.now();
 
   holdButton.classList.add(
     'is-holding'
@@ -340,18 +389,31 @@ function beginHold(event) {
         event.pointerId
       );
     } catch (_) {
-      // Pointer capture is helpful but optional.
+      /*
+        Pointer capture improves reliability
+        on touchscreens but is not required.
+      */
     }
   }
 
   holdAnimationFrame =
-    requestAnimationFrame(updateHold);
+    requestAnimationFrame(
+      updateHold
+    );
 }
 
 function endHold(event) {
+  if (
+    event?.type === 'keyup' &&
+    event.key !== 'Enter' &&
+    event.key !== ' '
+  ) {
+    return;
+  }
+
   event?.preventDefault?.();
 
-  releasePointerCapture();
+  releaseActivePointer();
 
   if (isReadyToOpen) {
     openInvitation({
@@ -386,7 +448,7 @@ function openInvitation({
 
   holdAnimationFrame = null;
 
-  releasePointerCapture();
+  releaseActivePointer();
 
   holdButton?.classList.remove(
     'is-holding',
@@ -394,13 +456,14 @@ function openInvitation({
   );
 
   /*
-    Start Spotify immediately while this function is
+    Start the MP3 immediately while the function is
     still running from the guest's release or click.
   */
-  startSpotifyFromEntry();
+  startWeddingAudio();
 
   const shouldAnimate =
-    withAnimation && !reduceMotion;
+    withAnimation &&
+    !reduceMotion;
 
   if (shouldAnimate) {
     entryScreen.classList.add(
@@ -476,6 +539,12 @@ holdButton?.addEventListener(
 entrySkip?.addEventListener(
   'click',
   () => {
+    /*
+      Clicking this button is also a valid
+      browser playback gesture.
+    */
+    prepareWeddingAudio();
+
     openInvitation({
       withAnimation: false
     });
