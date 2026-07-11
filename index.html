@@ -60,11 +60,11 @@
           </svg>
           <span class="key-icon">✦</span>
         </span>
-        <span class="hold-label">Preparing your invitation…</span>
+        <span class="hold-label">Press and hold to enter</span>
       </button>
 
-      <p class="entry-instruction" id="holdInstruction" aria-live="polite">
-        Loading our song
+      <p class="entry-instruction" id="holdInstruction">
+        Hold until the ring is complete, then release
       </p>
 
       <button class="entry-skip" id="entrySkip" type="button">
@@ -73,33 +73,6 @@
     </div>
   </div>
 
-  <!--
-    ONE Spotify controller only.
-    It stays technically inside the viewport so Spotify initializes immediately,
-    but it is visually reduced and never affects the page layout.
-  -->
-  <div
-    id="spotifyEmbed"
-    class="spotify-controller"
-    aria-hidden="true"
-  ></div>
-
-  <!-- DISCREET FLOATING MUSIC CONTROL -->
-  <button
-    class="music-toggle"
-    id="musicToggle"
-    type="button"
-    data-music-control
-    aria-label="Play our song, It Is Well, on Spotify"
-    aria-pressed="false"
-    hidden
-  >
-    <span class="music-icon" aria-hidden="true">♫</span>
-    <span class="music-copy">
-      <span class="music-label">Play Our Song</span>
-      <span class="music-credit">It Is Well · Spotify</span>
-    </span>
-  </button>
 
   <!-- HERO -->
   <header class="hero" id="top">
@@ -359,27 +332,27 @@
       </div>
     </section>
 
-    <!-- OUR SONG: NO ALBUM ART OR VISIBLE SPOTIFY PLAYER -->
+    <!-- OUR SONG -->
     <section class="music-section section" aria-labelledby="musicTitle">
       <div class="section-inner narrow reveal">
         <p class="eyebrow champagne">Our song</p>
         <h2 id="musicTitle">It Is Well</h2>
         <p class="music-artist">Bethel Music &amp; Kristene DiMarco</p>
 
-        <button
-          class="music-inline-button"
-          type="button"
-          data-music-control
-          aria-label="Play our song, It Is Well, on Spotify"
-          aria-pressed="false"
-        >
-          <span class="music-icon" aria-hidden="true">♫</span>
-          <span class="music-label">Play Our Song</span>
-        </button>
-
-        <p class="music-note" id="musicStatus" aria-live="polite">
-          Music is provided through Spotify.
-        </p>
+        <div class="spotify-player-wrap">
+          <iframe
+            data-testid="embed-iframe"
+            title="It Is Well by Bethel Music and Kristene DiMarco on Spotify"
+            style="border-radius: 12px"
+            src="https://open.spotify.com/embed/track/7E3YInQ8ZQuZgQhu2Sfito?utm_source=generator&amp;theme=0&amp;si=50d11baa983347f6"
+            width="100%"
+            height="152"
+            frameborder="0"
+            allowfullscreen
+            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+            loading="eager"
+          ></iframe>
+        </div>
       </div>
     </section>
 
@@ -421,8 +394,6 @@
     <p>September 12, 2026</p>
   </footer>
 
-  <!-- script.js defines Spotify's callback before the async API arrives. -->
   <script src="script.js"></script>
-  <script src="https://open.spotify.com/embed/iframe-api/v1" async></script>
 </body>
 </html>
