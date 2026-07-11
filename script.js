@@ -1,329 +1,309 @@
+'use strict';
+
+/* -------------------------------------------------
+   ELEMENTS
+------------------------------------------------- */
+
 const entryScreen = document.getElementById('entryScreen');
 const holdButton = document.getElementById('holdButton');
 const holdLabel = holdButton?.querySelector('.hold-label');
 const holdInstruction = document.getElementById('holdInstruction');
 const entrySkip = document.getElementById('entrySkip');
 
-const musicToggle = document.getElementById('musicToggle');
-const musicLabel = document.getElementById('musicLabel');
-const spotifyEmbed = document.getElementById('spotifyEmbed');
+/* -------------------------------------------------
+   ACCESSIBILITY + TIMING
+------------------------------------------------- */
 
 const reduceMotion = window.matchMedia(
   '(prefers-reduced-motion: reduce)'
 ).matches;
 
-const HOLD_DURATION = 2800;
-const SPOTIFY_TRACK_URI = 'spotify:track:7E3YInQ8ZQuZgQhu2Sfito';
+const HOLD_DURATION = reduceMotion ? 450 : 2800;
+const ENTRY_OPEN_DELAY = reduceMotion ? 0 : 700;
+const ENTRY_HIDE_DELAY = reduceMotion ? 80 : 3100;
 
-let holdStart = 0;
-let animationFrame = null;
-let holding = false;
-let readyToOpen = false;
-let unlocked = false;
+/* -------------------------------------------------
+   ENTRY STATE
+------------------------------------------------- */
+
+let holdStartTime = 0;
+let holdAnimationFrame = null;
+
+let isHolding = false;
+let isReadyToOpen = false;
+let isUnlocked = false;
+
 let activePointerId = null;
 
-let spotifyController = null;
-let spotifyReady = false;
-let musicPlaying = false;
-let pendingEntryPlayback = false;
-let playbackConfirmationTimer = null;
+/* -------------------------------------------------
+   SESSION STORAGE
+------------------------------------------------- */
 
-function setProgress(value) {
-  const safeValue = Math.max(0, Math.min(1, value));
-
-  holdButton?.style.setProperty(
-    '--hold-progress',
-    safeValue
-  );
-}
-
-function setMusicButtonState(isPlaying, fallbackText = null) {
-  musicPlaying = isPlaying;
-
-  musicToggle?.classList.toggle(
-    'is-playing',
-    isPlaying
-  );
-
-  if (musicLabel) {
-    musicLabel.textContent =
-      fallbackText ||
-      (isPlaying ? 'Pause Our Song' : 'Play Our Song');
-  }
-
-  musicToggle?.setAttribute(
-    'aria-label',
-    isPlaying
-      ? 'Pause our song, It Is Well, on Spotify'
-      : 'Play our song, It Is Well, on Spotify'
-  );
-}
-
-function revealMusicButton() {
-  if (!musicToggle) return;
-
-  musicToggle.hidden = false;
-
-  requestAnimationFrame(() => {
-    musicToggle.classList.add('is-visible');
-  });
-}
-
-function tryStartMusicFromEntry() {
-  revealMusicButton();
-
-  if (!spotifyController || !spotifyReady) {
-    pendingEntryPlayback = true;
-    setMusicButtonState(false, 'Play Our Song');
-    return;
-  }
-
-  pendingEntryPlayback = false;
-  spotifyController.play();
-
-  clearTimeout(playbackConfirmationTimer);
-
-  playbackConfirmationTimer = window.setTimeout(() => {
-    if (!musicPlaying) {
-      setMusicButtonState(
-        false,
-        'Tap to Play Our Song'
-      );
-    }
-  }, 1800);
-}
-
-/*
-  Spotify calls this function automatically after its iframe API loads.
-*/
-window.onSpotifyIframeApiReady = (IFrameAPI) => {
-  if (!spotifyEmbed) return;
-
-  const options = {
-    width: 152,
-    height: 152,
-    uri: SPOTIFY_TRACK_URI
-  };
-
-  IFrameAPI.createController(
-    spotifyEmbed,
-    options,
-    (controller) => {
-      spotifyController = controller;
-
-      controller.addListener('ready', () => {
-        spotifyReady = true;
-
-        if (pendingEntryPlayback) {
-          controller.play();
-          pendingEntryPlayback = false;
-        }
-      });
-
-      controller.addListener('playback_started', () => {
-        clearTimeout(playbackConfirmationTimer);
-        setMusicButtonState(true);
-        revealMusicButton();
-      });
-
-      controller.addListener(
-        'playback_update',
-        (event) => {
-          if (!event?.data) return;
-
-          const isPaused = Boolean(
-            event.data.isPaused
-          );
-
-          const hasStarted =
-            Number(event.data.position) > 0 ||
-            (
-              !isPaused &&
-              !event.data.isBuffering
-            );
-
-          if (hasStarted) {
-            setMusicButtonState(!isPaused);
-          }
-        }
-      );
-    }
-  );
-};
-
-musicToggle?.addEventListener('click', () => {
-  if (!spotifyController || !spotifyReady) {
-    setMusicButtonState(
-      false,
-      'Spotify Is Loading…'
+function getInvitationOpenedState() {
+  try {
+    return (
+      sessionStorage.getItem('weddingInvitationOpened') ===
+      'yes'
     );
-    return;
-  }
-
-  spotifyController.togglePlay();
-});
-
-function setReadyState() {
-  readyToOpen = true;
-  holding = false;
-
-  cancelAnimationFrame(animationFrame);
-  setProgress(1);
-
-  holdButton?.classList.remove('is-holding');
-  holdButton?.classList.add('is-ready');
-
-  if (holdLabel) {
-    holdLabel.textContent = 'Release to enter';
-  }
-
-  if (holdInstruction) {
-    holdInstruction.textContent =
-      'Release to open the invitation';
+  } catch (_) {
+    return false;
   }
 }
 
-function finishEntry() {
-  if (unlocked) return;
-
-  unlocked = true;
-  holding = false;
-  readyToOpen = false;
-
-  cancelAnimationFrame(animationFrame);
-
-  holdButton?.classList.remove(
-    'is-holding',
-    'is-ready'
-  );
-
-  entryScreen?.classList.add('is-unlocking');
-
-  /*
-    This runs directly from the release or click interaction,
-    giving Spotify the best chance to begin playback.
-  */
-  tryStartMusicFromEntry();
-
-  window.setTimeout(() => {
-    entryScreen?.classList.add('is-opening');
-    document.body.classList.remove('page-locked');
-
+function saveInvitationOpenedState() {
+  try {
     sessionStorage.setItem(
       'weddingInvitationOpened',
       'yes'
     );
-  }, 700);
+  } catch (_) {
+    // Continue normally if storage is unavailable.
+  }
+}
 
-  window.setTimeout(() => {
-    if (entryScreen) {
-      entryScreen.hidden = true;
+/* -------------------------------------------------
+   HOLD BUTTON HELPERS
+------------------------------------------------- */
+
+function setHoldProgress(value) {
+  if (!holdButton) return;
+
+  const safeValue = Math.max(0, Math.min(1, value));
+
+  holdButton.style.setProperty(
+    '--hold-progress',
+    String(safeValue)
+  );
+}
+
+function setEntryMessage(labelText, instructionText) {
+  if (holdLabel) {
+    holdLabel.textContent = labelText;
+  }
+
+  if (holdInstruction) {
+    holdInstruction.textContent = instructionText;
+  }
+}
+
+function releasePointerCapture() {
+  if (
+    !holdButton ||
+    activePointerId === null
+  ) {
+    activePointerId = null;
+    return;
+  }
+
+  try {
+    if (
+      holdButton.hasPointerCapture?.(
+        activePointerId
+      )
+    ) {
+      holdButton.releasePointerCapture(
+        activePointerId
+      );
     }
-  }, 3100);
+  } catch (_) {
+    // The browser may already have released it.
+  }
+
+  activePointerId = null;
+}
+
+/* -------------------------------------------------
+   HOLD-TO-ENTER ANIMATION
+------------------------------------------------- */
+
+function setReadyState() {
+  if (!holdButton || isUnlocked) return;
+
+  isHolding = false;
+  isReadyToOpen = true;
+
+  cancelAnimationFrame(holdAnimationFrame);
+  holdAnimationFrame = null;
+
+  setHoldProgress(1);
+
+  holdButton.classList.remove('is-holding');
+  holdButton.classList.add('is-ready');
+
+  setEntryMessage(
+    'Release to enter',
+    'Release to open the invitation'
+  );
 }
 
 function resetHold() {
-  if (unlocked) return;
+  if (isUnlocked) return;
 
-  holding = false;
-  readyToOpen = false;
+  isHolding = false;
+  isReadyToOpen = false;
 
-  cancelAnimationFrame(animationFrame);
+  cancelAnimationFrame(holdAnimationFrame);
+  holdAnimationFrame = null;
+
+  releasePointerCapture();
 
   holdButton?.classList.remove(
     'is-holding',
     'is-ready'
   );
 
-  setProgress(0);
+  setHoldProgress(0);
 
-  if (holdLabel) {
-    holdLabel.textContent =
-      'Press and hold to enter';
-  }
-
-  if (holdInstruction) {
-    holdInstruction.textContent =
-      'Hold until the ring is complete, then release';
-  }
+  setEntryMessage(
+    'Press and hold to enter',
+    'Hold until the ring is complete, then release'
+  );
 }
 
-function updateHold(now) {
-  if (!holding || unlocked || readyToOpen) return;
+function updateHold(currentTime) {
+  if (
+    !isHolding ||
+    isUnlocked ||
+    isReadyToOpen
+  ) {
+    return;
+  }
+
+  const elapsedTime =
+    currentTime - holdStartTime;
 
   const progress =
-    (now - holdStart) / HOLD_DURATION;
+    elapsedTime / HOLD_DURATION;
 
-  setProgress(progress);
+  setHoldProgress(progress);
 
   if (progress >= 1) {
     setReadyState();
     return;
   }
 
-  animationFrame =
+  holdAnimationFrame =
     requestAnimationFrame(updateHold);
 }
 
 function beginHold(event) {
-  if (unlocked || readyToOpen) return;
-
   if (
-    event.type === 'keydown' &&
-    !['Enter', ' '].includes(event.key)
+    !holdButton ||
+    isUnlocked ||
+    isReadyToOpen ||
+    isHolding
   ) {
     return;
   }
 
-  if (holding) return;
+  const isKeyboardEvent =
+    event.type === 'keydown';
+
+  if (
+    isKeyboardEvent &&
+    event.key !== 'Enter' &&
+    event.key !== ' '
+  ) {
+    return;
+  }
+
+  if (
+    isKeyboardEvent &&
+    event.repeat
+  ) {
+    return;
+  }
 
   event.preventDefault();
 
-  holding = true;
-  holdStart = performance.now();
+  isHolding = true;
+  holdStartTime = performance.now();
 
-  holdButton?.classList.add('is-holding');
+  holdButton.classList.add('is-holding');
 
   if (event.pointerId !== undefined) {
     activePointerId = event.pointerId;
 
     try {
-      holdButton?.setPointerCapture(
+      holdButton.setPointerCapture(
         event.pointerId
       );
     } catch (_) {
-      // Pointer capture is helpful but not required.
+      // Pointer capture improves mobile reliability
+      // but is not required.
     }
   }
 
-  animationFrame =
+  holdAnimationFrame =
     requestAnimationFrame(updateHold);
 }
 
 function endHold(event) {
   event?.preventDefault?.();
 
-  if (
-    activePointerId !== null &&
-    event?.pointerId === activePointerId
-  ) {
-    try {
-      holdButton?.releasePointerCapture(
-        activePointerId
-      );
-    } catch (_) {
-      // The browser may already have released it.
-    }
+  releasePointerCapture();
 
-    activePointerId = null;
-  }
-
-  if (readyToOpen) {
-    finishEntry();
+  if (isReadyToOpen) {
+    openInvitation({
+      withAnimation: true
+    });
   } else {
     resetHold();
   }
 }
+
+/* -------------------------------------------------
+   OPEN INVITATION
+------------------------------------------------- */
+
+function openInvitation({
+  withAnimation = true
+} = {}) {
+  if (!entryScreen || isUnlocked) return;
+
+  isUnlocked = true;
+  isHolding = false;
+  isReadyToOpen = false;
+
+  cancelAnimationFrame(holdAnimationFrame);
+  holdAnimationFrame = null;
+
+  releasePointerCapture();
+
+  holdButton?.classList.remove(
+    'is-holding',
+    'is-ready'
+  );
+
+  const shouldAnimate =
+    withAnimation && !reduceMotion;
+
+  if (shouldAnimate) {
+    entryScreen.classList.add(
+      'is-unlocking'
+    );
+  }
+
+  window.setTimeout(() => {
+    entryScreen.classList.add(
+      'is-opening'
+    );
+
+    document.body.classList.remove(
+      'page-locked'
+    );
+
+    saveInvitationOpenedState();
+  }, shouldAnimate ? ENTRY_OPEN_DELAY : 0);
+
+  window.setTimeout(() => {
+    entryScreen.hidden = true;
+  }, shouldAnimate ? ENTRY_HIDE_DELAY : 80);
+}
+
+/* -------------------------------------------------
+   ENTRY EVENTS
+------------------------------------------------- */
 
 holdButton?.addEventListener(
   'pointerdown',
@@ -343,7 +323,10 @@ holdButton?.addEventListener(
 holdButton?.addEventListener(
   'lostpointercapture',
   () => {
-    if (!readyToOpen && !unlocked) {
+    if (
+      !isReadyToOpen &&
+      !isUnlocked
+    ) {
       resetHold();
     }
   }
@@ -368,27 +351,32 @@ holdButton?.addEventListener(
 
 entrySkip?.addEventListener(
   'click',
-  finishEntry
+  () => {
+    openInvitation({
+      withAnimation: false
+    });
+  }
 );
 
-/*
-  Skip the entrance if it was already opened during
-  the current browser session.
-*/
-if (
-  sessionStorage.getItem(
-    'weddingInvitationOpened'
-  ) === 'yes'
-) {
+/* -------------------------------------------------
+   RETURN VISITS
+------------------------------------------------- */
+
+if (getInvitationOpenedState()) {
+  isUnlocked = true;
+
   if (entryScreen) {
     entryScreen.hidden = true;
   }
 
-  document.body.classList.remove('page-locked');
-  revealMusicButton();
+  document.body.classList.remove(
+    'page-locked'
+  );
 }
 
-/* Existing scroll-reveal animations */
+/* -------------------------------------------------
+   SCROLL REVEAL ANIMATIONS
+------------------------------------------------- */
 
 const revealItems =
   document.querySelectorAll('.reveal');
@@ -401,21 +389,28 @@ if (
     item.classList.add('visible');
   });
 } else {
-  const observer = new IntersectionObserver(
-    (entries, obs) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-          obs.unobserve(entry.target);
-        }
-      });
-    },
-    {
-      threshold: 0.12
-    }
-  );
+  const revealObserver =
+    new IntersectionObserver(
+      (entries, observer) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+
+          entry.target.classList.add(
+            'visible'
+          );
+
+          observer.unobserve(
+            entry.target
+          );
+        });
+      },
+      {
+        threshold: 0.12,
+        rootMargin: '0px 0px -40px 0px'
+      }
+    );
 
   revealItems.forEach((item) => {
-    observer.observe(item);
+    revealObserver.observe(item);
   });
 }
