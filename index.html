@@ -17,6 +17,16 @@
     rel="stylesheet"
   />
   <link rel="stylesheet" href="styles.css" />
+  <!-- Begin connecting to Spotify as early as possible -->
+<link rel="preconnect" href="https://open.spotify.com" />
+<link rel="dns-prefetch" href="//open.spotify.com" />
+
+<!-- Load our callback first, then Spotify's API -->
+<script src="script.js" defer></script>
+<script
+  src="https://open.spotify.com/embed/iframe-api/v1"
+  defer
+></script>
 </head>
 
 <body class="page-locked">
