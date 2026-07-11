@@ -1213,3 +1213,14 @@ footer {
     height: 152px;
   }
 }
+.hold-button {
+  gap: 16px;
+}
+
+.entry-instruction {
+  margin-top: 20px;
+}
+
+.entry-skip {
+  margin-top: 28px;
+}
