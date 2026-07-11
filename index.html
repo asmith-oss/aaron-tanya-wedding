@@ -17,16 +17,6 @@
     rel="stylesheet"
   />
   <link rel="stylesheet" href="styles.css" />
-  <!-- Begin connecting to Spotify as early as possible -->
-<link rel="preconnect" href="https://open.spotify.com" />
-<link rel="dns-prefetch" href="//open.spotify.com" />
-
-<!-- Load our callback first, then Spotify's API -->
-<script src="script.js" defer></script>
-<script
-  src="https://open.spotify.com/embed/iframe-api/v1"
-  defer
-></script>
 </head>
 
 <body class="page-locked">
@@ -342,23 +332,6 @@
       </div>
     </section>
 
-    <!-- OUR SONG -->
-<section class="music-section section" aria-labelledby="musicTitle">
-  <div class="section-inner narrow reveal">
-    <p class="eyebrow champagne"></p>
-    <h2 id="musicTitle">It Is Well</h2>
-    <p class="music-artist"></p>
-
-    <div class="spotify-player-wrap">
-      <div
-        id="spotifyEmbed"
-        class="spotify-embed"
-        aria-label="It Is Well by Bethel Music and Kristene DiMarco"
-      ></div>
-    </div>
-  </div>
-</section>
-
 <!-- SCRIPTURE + RSVP -->
 <section class="final-rsvp section" id="rsvp">
   <div class="section-inner narrow reveal">
@@ -399,10 +372,22 @@
   <p>September 12, 2026</p>
 </footer>
 
+<!-- LOCAL WEDDING MUSIC
+     The MP3 begins buffering when the guest presses the entry button.
+     script.js starts playback when the completed hold is released. -->
+<audio
+  id="weddingAudio"
+  preload="none"
+  playsinline
+  loop
+  aria-hidden="true"
+>
+  <source
+    src="audio/wedding-music.mp3"
+    type="audio/mpeg"
+  />
+</audio>
+
 <script src="script.js"></script>
-<script
-  src="https://open.spotify.com/embed/iframe-api/v1"
-  async
-></script>
 </body>
 </html>
