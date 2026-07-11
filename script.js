@@ -4,11 +4,23 @@
    ELEMENTS
 ------------------------------------------------- */
 
-const entryScreen = document.getElementById('entryScreen');
-const holdButton = document.getElementById('holdButton');
-const holdLabel = holdButton?.querySelector('.hold-label');
-const holdInstruction = document.getElementById('holdInstruction');
-const entrySkip = document.getElementById('entrySkip');
+const entryScreen =
+  document.getElementById('entryScreen');
+
+const holdButton =
+  document.getElementById('holdButton');
+
+const holdLabel =
+  holdButton?.querySelector('.hold-label');
+
+const holdInstruction =
+  document.getElementById('holdInstruction');
+
+const entrySkip =
+  document.getElementById('entrySkip');
+
+const spotifyEmbed =
+  document.getElementById('spotifyEmbed');
 
 /* -------------------------------------------------
    ACCESSIBILITY + TIMING
@@ -18,9 +30,86 @@ const reduceMotion = window.matchMedia(
   '(prefers-reduced-motion: reduce)'
 ).matches;
 
+/*
+  This remains exactly 2.8 seconds for everyone.
+*/
 const HOLD_DURATION = 2800;
-const ENTRY_OPEN_DELAY = reduceMotion ? 0 : 700;
-const ENTRY_HIDE_DELAY = reduceMotion ? 80 : 3100;
+
+const ENTRY_OPEN_DELAY =
+  reduceMotion ? 0 : 700;
+
+const ENTRY_HIDE_DELAY =
+  reduceMotion ? 80 : 3100;
+
+/* -------------------------------------------------
+   SPOTIFY
+------------------------------------------------- */
+
+const SPOTIFY_TRACK_URI =
+  'spotify:track:7E3YInQ8ZQuZgQhu2Sfito';
+
+let spotifyController = null;
+let spotifyReady = false;
+let pendingSpotifyPlayback = false;
+
+/*
+  Spotify calls this function after its iframe API loads.
+
+  The controller creates the visible Spotify player inside
+  the music section. It does not create a floating button
+  or a player at the top of the page.
+*/
+window.onSpotifyIframeApiReady = (IFrameAPI) => {
+  if (!spotifyEmbed) return;
+
+  const options = {
+    width: '100%',
+    height: '152',
+    uri: SPOTIFY_TRACK_URI
+  };
+
+  IFrameAPI.createController(
+    spotifyEmbed,
+    options,
+    (controller) => {
+      spotifyController = controller;
+
+      controller.addListener('ready', () => {
+        spotifyReady = true;
+
+        /*
+          This is a backup attempt in case Spotify finished
+          loading immediately after the invitation opened.
+        */
+        if (pendingSpotifyPlayback) {
+          pendingSpotifyPlayback = false;
+          controller.play();
+        }
+      });
+    }
+  );
+};
+
+function startSpotifyFromEntry() {
+  if (
+    spotifyController &&
+    spotifyReady
+  ) {
+    /*
+      This is called directly from the guest's release
+      or click action, giving autoplay its best chance.
+    */
+    spotifyController.play();
+    pendingSpotifyPlayback = false;
+    return;
+  }
+
+  /*
+    Spotify may still be initializing. Do not delay or
+    change the invitation unlock timing.
+  */
+  pendingSpotifyPlayback = true;
+}
 
 /* -------------------------------------------------
    ENTRY STATE
@@ -42,8 +131,9 @@ let activePointerId = null;
 function getInvitationOpenedState() {
   try {
     return (
-      sessionStorage.getItem('weddingInvitationOpened') ===
-      'yes'
+      sessionStorage.getItem(
+        'weddingInvitationOpened'
+      ) === 'yes'
     );
   } catch (_) {
     return false;
@@ -57,7 +147,7 @@ function saveInvitationOpenedState() {
       'yes'
     );
   } catch (_) {
-    // Continue normally if storage is unavailable.
+    // Continue if storage is unavailable.
   }
 }
 
@@ -68,7 +158,8 @@ function saveInvitationOpenedState() {
 function setHoldProgress(value) {
   if (!holdButton) return;
 
-  const safeValue = Math.max(0, Math.min(1, value));
+  const safeValue =
+    Math.max(0, Math.min(1, value));
 
   holdButton.style.setProperty(
     '--hold-progress',
@@ -76,13 +167,17 @@ function setHoldProgress(value) {
   );
 }
 
-function setEntryMessage(labelText, instructionText) {
+function setEntryMessage(
+  labelText,
+  instructionText
+) {
   if (holdLabel) {
     holdLabel.textContent = labelText;
   }
 
   if (holdInstruction) {
-    holdInstruction.textContent = instructionText;
+    holdInstruction.textContent =
+      instructionText;
   }
 }
 
@@ -106,14 +201,14 @@ function releasePointerCapture() {
       );
     }
   } catch (_) {
-    // The browser may already have released it.
+    // The browser may have already released it.
   }
 
   activePointerId = null;
 }
 
 /* -------------------------------------------------
-   HOLD-TO-ENTER ANIMATION
+   HOLD-TO-ENTER
 ------------------------------------------------- */
 
 function setReadyState() {
@@ -122,13 +217,21 @@ function setReadyState() {
   isHolding = false;
   isReadyToOpen = true;
 
-  cancelAnimationFrame(holdAnimationFrame);
+  cancelAnimationFrame(
+    holdAnimationFrame
+  );
+
   holdAnimationFrame = null;
 
   setHoldProgress(1);
 
-  holdButton.classList.remove('is-holding');
-  holdButton.classList.add('is-ready');
+  holdButton.classList.remove(
+    'is-holding'
+  );
+
+  holdButton.classList.add(
+    'is-ready'
+  );
 
   setEntryMessage(
     'Release to enter',
@@ -142,7 +245,10 @@ function resetHold() {
   isHolding = false;
   isReadyToOpen = false;
 
-  cancelAnimationFrame(holdAnimationFrame);
+  cancelAnimationFrame(
+    holdAnimationFrame
+  );
+
   holdAnimationFrame = null;
 
   releasePointerCapture();
@@ -219,18 +325,22 @@ function beginHold(event) {
   isHolding = true;
   holdStartTime = performance.now();
 
-  holdButton.classList.add('is-holding');
+  holdButton.classList.add(
+    'is-holding'
+  );
 
-  if (event.pointerId !== undefined) {
-    activePointerId = event.pointerId;
+  if (
+    event.pointerId !== undefined
+  ) {
+    activePointerId =
+      event.pointerId;
 
     try {
       holdButton.setPointerCapture(
         event.pointerId
       );
     } catch (_) {
-      // Pointer capture improves mobile reliability
-      // but is not required.
+      // Pointer capture is helpful but optional.
     }
   }
 
@@ -259,13 +369,21 @@ function endHold(event) {
 function openInvitation({
   withAnimation = true
 } = {}) {
-  if (!entryScreen || isUnlocked) return;
+  if (
+    !entryScreen ||
+    isUnlocked
+  ) {
+    return;
+  }
 
   isUnlocked = true;
   isHolding = false;
   isReadyToOpen = false;
 
-  cancelAnimationFrame(holdAnimationFrame);
+  cancelAnimationFrame(
+    holdAnimationFrame
+  );
+
   holdAnimationFrame = null;
 
   releasePointerCapture();
@@ -274,6 +392,12 @@ function openInvitation({
     'is-holding',
     'is-ready'
   );
+
+  /*
+    Start Spotify immediately while this function is
+    still running from the guest's release or click.
+  */
+  startSpotifyFromEntry();
 
   const shouldAnimate =
     withAnimation && !reduceMotion;
@@ -375,7 +499,7 @@ if (getInvitationOpenedState()) {
 }
 
 /* -------------------------------------------------
-   SCROLL REVEAL ANIMATIONS
+   SCROLL REVEALS
 ------------------------------------------------- */
 
 const revealItems =
@@ -393,7 +517,11 @@ if (
     new IntersectionObserver(
       (entries, observer) => {
         entries.forEach((entry) => {
-          if (!entry.isIntersecting) return;
+          if (
+            !entry.isIntersecting
+          ) {
+            return;
+          }
 
           entry.target.classList.add(
             'visible'
@@ -406,7 +534,8 @@ if (
       },
       {
         threshold: 0.12,
-        rootMargin: '0px 0px -40px 0px'
+        rootMargin:
+          '0px 0px -40px 0px'
       }
     );
 
