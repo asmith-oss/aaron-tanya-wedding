@@ -125,6 +125,7 @@ a {
   transition:
     opacity 1.8s ease,
     transform 1.8s ease;
+  white-space: nowrap;
 }
 
 .entry-screen.is-unlocking .entry-content {
