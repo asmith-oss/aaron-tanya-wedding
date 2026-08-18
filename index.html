@@ -2,31 +2,59 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  />
+
   <meta
     name="description"
     content="Aaron and Tanya's wedding celebration — September 12, 2026."
   />
-  <meta name="theme-color" content="#050505" />
-  <title>Aaron &amp; Tanya | September 12, 2026</title>
 
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <meta name="theme-color" content="#050505" />
+
+  <title>
+    Aaron &amp; Tanya | September 12, 2026
+  </title>
+
   <link
-    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&amp;family=Inter:wght@300;400;500&amp;display=swap"
+    rel="preconnect"
+    href="https://fonts.googleapis.com"
+  />
+
+  <link
+    rel="preconnect"
+    href="https://fonts.gstatic.com"
+    crossorigin
+  />
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Inter:wght@300;400;500&display=swap"
     rel="stylesheet"
   />
-  <link rel="stylesheet" href="styles.css" />
+
+  <link
+    rel="stylesheet"
+    href="styles.css"
+  />
 </head>
 
+
 <body class="page-locked">
+
   <noscript>
     <div class="noscript-message">
       This invitation needs JavaScript enabled to open.
     </div>
   </noscript>
 
-  <!-- OPENING SCREEN -->
+
+  <!-- =========================
+       OPENING SCREEN
+       ========================= -->
+
   <div
     class="entry-screen"
     id="entryScreen"
@@ -34,18 +62,34 @@
     aria-modal="true"
     aria-labelledby="entryTitle"
   >
+
     <img
       class="entry-background"
       src="images/hero.jpg"
       alt=""
       aria-hidden="true"
     />
-    <div class="entry-shade" aria-hidden="true"></div>
+
+    <div
+      class="entry-shade"
+      aria-hidden="true"
+    ></div>
+
 
     <div class="entry-content">
-      <p class="entry-kicker">A private celebration</p>
-      <h2 id="entryTitle">Aaron <em>&amp;</em> Tanya</h2>
-      <p class="entry-date">September 12, 2026</p>
+
+      <p class="entry-kicker">
+        A private celebration
+      </p>
+
+      <h2 id="entryTitle">
+        Aaron <em>&amp;</em> Tanya
+      </h2>
+
+      <p class="entry-date">
+        September 12, 2026
+      </p>
+
 
       <button
         class="hold-button"
@@ -53,341 +97,781 @@
         type="button"
         aria-describedby="holdInstruction"
       >
-        <span class="hold-ring" aria-hidden="true">
-          <svg viewBox="0 0 120 120" focusable="false">
-            <circle class="hold-ring-track" cx="60" cy="60" r="52"></circle>
-            <circle class="hold-ring-progress" cx="60" cy="60" r="52"></circle>
+
+        <span
+          class="hold-ring"
+          aria-hidden="true"
+        >
+
+          <svg
+            viewBox="0 0 120 120"
+            focusable="false"
+          >
+
+            <circle
+              class="hold-ring-track"
+              cx="60"
+              cy="60"
+              r="52"
+            ></circle>
+
+            <circle
+              class="hold-ring-progress"
+              cx="60"
+              cy="60"
+              r="52"
+            ></circle>
+
           </svg>
-          <span class="key-icon">✦</span>
+
+          <span class="key-icon">
+            ✦
+          </span>
+
         </span>
-        <span class="hold-label">Press and hold to enter</span>
+
+        <span class="hold-label">
+          Press and hold to enter
+        </span>
+
       </button>
 
-      <p class="entry-instruction" id="holdInstruction">
+
+      <p
+        class="entry-instruction"
+        id="holdInstruction"
+      >
         Hold until the ring is complete, then release
       </p>
 
-      <button class="entry-skip" id="entrySkip" type="button">
+
+      <button
+        class="entry-skip"
+        id="entrySkip"
+        type="button"
+      >
         Enter without animation
       </button>
+
     </div>
   </div>
 
 
-  <!-- HERO -->
-  <header class="hero" id="top">
-    <img class="hero-image" src="images/hero.jpg" alt="Aaron and Tanya" />
-    <div class="hero-overlay" aria-hidden="true"></div>
+  <!-- =========================
+       HERO
+       ========================= -->
 
-    <nav class="nav-wrap" aria-label="Main navigation">
-      <a class="monogram" href="#top" aria-label="Back to top">A + T</a>
+  <header
+    class="hero"
+    id="top"
+  >
+
+    <img
+      class="hero-image"
+      src="images/hero.jpg"
+      alt="Aaron and Tanya"
+    />
+
+    <div
+      class="hero-overlay"
+      aria-hidden="true"
+    ></div>
+
+
+    <nav
+      class="nav-wrap"
+      aria-label="Main navigation"
+    >
+
+      <a
+        class="monogram"
+        href="#top"
+        aria-label="Back to top"
+      >
+        A + T
+      </a>
+
+
       <a
         class="nav-rsvp"
         href="https://docs.google.com/forms/d/e/1FAIpQLSeoKAJlu4cMqBg7XUTzzEQyMOEs7BAewZNlyhiRSMKCElDC9w/viewform?usp=publish-editor"
         target="_blank"
         rel="noopener noreferrer"
-      >RSVP</a>
+      >
+        RSVP
+      </a>
+
     </nav>
 
+
     <div class="hero-content reveal">
-      <p class="eyebrow">Our Wedding</p>
-      <h1>Aaron <span class="champagne">&amp;</span> Tanya</h1>
-      <p class="hero-date">Saturday, September 12, 2026</p>
-      <p class="hero-location">Ladera Ranch, California</p>
+
+      <p class="eyebrow">
+        Our Wedding
+      </p>
+
+      <h1>
+        Aaron
+        <span class="champagne">&amp;</span>
+        Tanya
+      </h1>
+
+      <p class="hero-date">
+        Saturday, September 12, 2026
+      </p>
+
+      <p class="hero-location">
+        Laguna Beach, California
+      </p>
+
+
       <a
         class="button button-light"
         href="https://docs.google.com/forms/d/e/1FAIpQLSeoKAJlu4cMqBg7XUTzzEQyMOEs7BAewZNlyhiRSMKCElDC9w/viewform?usp=publish-editor"
         target="_blank"
         rel="noopener noreferrer"
-      >RSVP to the celebration</a>
+      >
+        RSVP to the celebration
+      </a>
+
     </div>
 
-    <a class="scroll-cue" href="#invitation" aria-label="Scroll to invitation">
-      <span>Scroll</span>
-      <span class="scroll-line" aria-hidden="true"></span>
+
+    <a
+      class="scroll-cue"
+      href="#invitation"
+      aria-label="Scroll to invitation"
+    >
+
+      <span>
+        Scroll
+      </span>
+
+      <span
+        class="scroll-line"
+        aria-hidden="true"
+      ></span>
+
     </a>
+
   </header>
 
+
+
   <main>
-    <!-- INVITATION -->
-    <section class="invitation section" id="invitation">
+
+
+    <!-- =========================
+         INVITATION
+         ========================= -->
+
+    <section
+      class="invitation section"
+      id="invitation"
+    >
+
       <div class="section-inner narrow reveal">
-        <p class="eyebrow champagne">Together with their family</p>
-        <h2>Aaron <span class="champagne">&amp;</span> Tanya</h2>
-        <p class="invitation-copy">
-          invite you to join them for an intimate celebration of love and family.
+
+        <p class="eyebrow champagne">
+          Together with their family
         </p>
 
-        <div class="date-lockup champagne" aria-label="Saturday, September 12, 2026">
-          <span>Saturday</span>
-          <strong>12</strong>
-          <span>September 2026</span>
+
+        <h2>
+          Aaron
+          <span class="champagne">&amp;</span>
+          Tanya
+        </h2>
+
+
+        <p class="invitation-copy">
+          invite you to join them for an intimate
+          celebration of love and family.
+        </p>
+
+
+        <div
+          class="date-lockup champagne"
+          aria-label="Saturday, September 12, 2026"
+        >
+
+          <span>
+            Saturday
+          </span>
+
+          <strong>
+            12
+          </strong>
+
+          <span>
+            September 2026
+          </span>
+
         </div>
 
-        <p class="venue-name">Oak Knoll Village Clubhouse</p>
-        <p>28192 O’Neill Drive<br />Ladera Ranch, California</p>
-        <p class="ceremony-time champagne">Ceremony at four o’clock</p>
-        <p>Dinner and celebration immediately following</p>
+
+        <p class="venue-name">
+          The Gazebo at Heisler Park
+        </p>
+
+
+        <p>
+          Lower Cliff Drive<br />
+          Laguna Beach, California
+        </p>
+
+
+        <p class="ceremony-time champagne">
+          Ceremony at twelve o’clock
+        </p>
+
 
         <div class="button-row">
+
           <a
             class="button"
             href="https://docs.google.com/forms/d/e/1FAIpQLSeoKAJlu4cMqBg7XUTzzEQyMOEs7BAewZNlyhiRSMKCElDC9w/viewform?usp=publish-editor"
             target="_blank"
             rel="noopener noreferrer"
-          >RSVP</a>
+          >
+            RSVP
+          </a>
+
+
           <a
             class="button"
-            href="https://www.google.com/maps/search/?api=1&amp;query=Oak+Knoll+Village+Clubhouse%2C+28192+O%27Neill+Drive%2C+Ladera+Ranch%2C+CA+92694"
+            href="https://www.google.com/maps/search/?api=1&query=Heisler+Park+Gazebo%2C+Laguna+Beach%2C+CA"
             target="_blank"
             rel="noopener noreferrer"
-          >Open in Google Maps</a>
-          <a class="button" href="wedding.ics" download>Add to calendar</a>
+          >
+            Open in Google Maps
+          </a>
+
+
+          <a
+            class="button"
+            href="wedding.ics"
+            download
+          >
+            Add to calendar
+          </a>
+
         </div>
+
       </div>
     </section>
 
-    <!-- FIRST PHOTO COLLAGE -->
-    <section class="collage section" aria-label="Photo collage">
+
+
+    <!-- =========================
+         FIRST PHOTO COLLAGE
+         ========================= -->
+
+    <section
+      class="collage section"
+      aria-label="Photo collage"
+    >
+
       <div class="collage-grid collage-grid-primary">
+
+
         <figure class="photo photo-wide reveal">
+
           <img
             src="images/photo-01.jpg"
             alt="Aaron and Tanya memory"
             loading="lazy"
           />
+
         </figure>
 
+
         <figure class="photo photo-tall reveal delay-1">
+
           <img
             src="images/photo-02.jpg"
             alt="Aaron and Tanya portrait"
             loading="lazy"
           />
+
         </figure>
 
+
         <figure class="photo reveal delay-2">
+
           <img
             src="images/photo-03.jpg"
             alt="Aaron and Tanya candid moment"
             loading="lazy"
           />
+
         </figure>
 
+
         <div class="collage-quote reveal">
+
           <p>
             13 Years of Love.<br />
             A lot of memories.<br />
-            <em>Our favorite chapter is still ahead.</em>
+
+            <em>
+              Our favorite chapter is still ahead.
+            </em>
           </p>
+
         </div>
 
+
         <figure class="photo reveal delay-1">
+
           <img
             src="images/photo-04.jpg"
             alt="Aaron and Tanya together"
             loading="lazy"
           />
+
         </figure>
 
+
         <figure class="photo photo-wide reveal delay-2">
+
           <img
             src="images/photo-05.jpg"
             alt="Aaron and Tanya celebration"
             loading="lazy"
           />
+
         </figure>
+
       </div>
     </section>
 
-    <!-- EVENT DETAILS -->
-    <section class="details section" id="details">
+
+
+    <!-- =========================
+         EVENT DETAILS
+         ========================= -->
+
+    <section
+      class="details section"
+      id="details"
+    >
+
       <div class="section-inner">
+
+
         <div class="section-heading reveal">
-          <p class="eyebrow champagne">The celebration</p>
-          <h2>Event Details</h2>
+
+          <p class="eyebrow champagne">
+            The celebration
+          </p>
+
+          <h2>
+            Event Details
+          </h2>
+
         </div>
+
 
         <div class="details-grid">
+
+
+          <!-- CEREMONY -->
+
           <article class="detail-card reveal">
-            <p class="detail-number">01</p>
-            <h3>The Ceremony</h3>
-            <p>Oak Knoll Village Clubhouse</p>
-            <p>Saturday, September 12, 2026</p>
-            <p>Begins at 4:00 p.m.</p>
-            <p class="muted">Guests are encouraged to arrive by 3:00 p.m.</p>
+
+            <p class="detail-number">
+              01
+            </p>
+
+            <h3>
+              The Ceremony
+            </h3>
+
+            <p>
+              The Gazebo at Heisler Park
+            </p>
+
+            <p>
+              Saturday, September 12, 2026
+            </p>
+
+            <p>
+              Begins at 12:00 p.m.
+            </p>
+
+            <p class="muted">
+              Please allow a little extra time for
+              parking and walking to the Gazebo.
+            </p>
+
           </article>
+
+
+
+          <!-- ATTIRE -->
 
           <article class="detail-card reveal delay-1">
-            <p class="detail-number">02</p>
-            <h3>The Reception</h3>
-            <p>
-              A small, simple dinner and celebration will immediately follow
-              the ceremony.
+
+            <p class="detail-number">
+              02
             </p>
+
+            <h3>
+              The Attire
+            </h3>
+
+            <p>
+              Semi-formal
+            </p>
+
+            <p class="muted">
+              Simple, polished, and comfortable.
+              Suits, dress shirts, polos, cocktail
+              dresses, jumpsuits, and elevated
+              separates are all welcome.
+            </p>
+
           </article>
+
+
+
+          <!-- SETTING -->
 
           <article class="detail-card reveal delay-2">
-            <p class="detail-number">03</p>
-            <h3>The Attire</h3>
-            <p>Semi-formal</p>
-            <p class="muted">
-              Simple, polished, and comfortable. Suits, dress shirts, polos,
-              cocktail dresses, jumpsuits, and elevated separates are all welcome.
+
+            <p class="detail-number">
+              03
             </p>
+
+            <h3>
+              The Setting
+            </h3>
+
+            <p>
+              An intimate outdoor ceremony
+              at Heisler Park in Laguna Beach.
+            </p>
+
+            <p class="muted">
+              We’re keeping the day simple,
+              personal, and centered on sharing
+              this moment with the people closest
+              to us.
+            </p>
+
           </article>
+
+
         </div>
       </div>
     </section>
 
-    <!-- VENUE -->
-    <section class="destination section" id="destination">
+
+
+    <!-- =========================
+         DESTINATION
+         ========================= -->
+
+    <section
+      class="destination section"
+      id="destination"
+    >
+
+
       <div class="destination-image reveal">
+
         <img
           src="images/venue.jpg"
-          alt="Oak Knoll Village Clubhouse"
+          alt="The Gazebo at Heisler Park in Laguna Beach"
           loading="lazy"
         />
+
       </div>
+
 
       <div class="destination-copy reveal delay-1">
-        <p class="eyebrow champagne">The destination</p>
-        <h2>Oak Knoll Village Clubhouse</h2>
-        <p>28192 O’Neill Drive<br />Ladera Ranch, CA 92694</p>
-        <p>
-          Ample parking is available onsite, including convenient access
-          through the circle drive.
+
+        <p class="eyebrow champagne">
+          The destination
         </p>
 
+
+        <h2>
+          The Gazebo at Heisler Park
+        </h2>
+
+
+        <p>
+          Lower Cliff Drive<br />
+          Laguna Beach, California
+        </p>
+
+
+        <p>
+          Our ceremony will take place
+          at the Gazebo in Heisler Park.
+        </p>
+
+
+        <p class="muted">
+          Parking is public throughout the area.
+          Please allow extra time to park and
+          walk to the Gazebo before the ceremony.
+        </p>
+
+
         <div class="button-row left">
+
           <a
             class="button"
-            href="https://www.google.com/maps/search/?api=1&amp;query=Oak+Knoll+Village+Clubhouse%2C+28192+O%27Neill+Drive%2C+Ladera+Ranch%2C+CA+92694"
+            href="https://www.google.com/maps/search/?api=1&query=Heisler+Park+Gazebo%2C+Laguna+Beach%2C+CA"
             target="_blank"
             rel="noopener noreferrer"
-          >Open in Google Maps</a>
-          <a class="button" href="wedding.ics" download>Add to calendar</a>
+          >
+            Open in Google Maps
+          </a>
+
+
+          <a
+            class="button"
+            href="wedding.ics"
+            download
+          >
+            Add to calendar
+          </a>
+
         </div>
+
       </div>
+
     </section>
 
-    <!-- SECOND PHOTO COLLAGE -->
-    <section class="collage collage-secondary section" aria-label="More memories">
+
+
+    <!-- =========================
+         SECOND PHOTO COLLAGE
+         ========================= -->
+
+    <section
+      class="collage collage-secondary section"
+      aria-label="More memories"
+    >
+
       <div class="collage-grid collage-grid-secondary">
+
+
         <figure class="photo photo-tall reveal">
+
           <img
             src="images/photo-06.jpg"
             alt="Aaron and Tanya favorite memory"
             loading="lazy"
           />
+
         </figure>
 
+
         <figure class="photo reveal delay-1">
+
           <img
             src="images/photo-07.jpg"
             alt="Aaron and Tanya smiling"
             loading="lazy"
           />
+
         </figure>
 
+
         <figure class="photo photo-wide reveal delay-2">
+
           <img
             src="images/photo-08.jpg"
             alt="Aaron and Tanya outdoors"
             loading="lazy"
           />
+
         </figure>
 
+
         <figure class="photo photo-wide reveal">
+
           <img
             src="images/photo-09.jpg"
             alt="Aaron and Tanya together"
             loading="lazy"
           />
+
         </figure>
 
+
         <figure class="photo photo-tall reveal delay-1">
+
           <img
             src="images/photo-10.jpg"
             alt="Aaron and Tanya family memory"
             loading="lazy"
           />
+
         </figure>
 
+
         <figure class="photo reveal delay-2">
+
           <img
             src="images/photo-11.jpg"
             alt="Aaron and Tanya candid moment"
             loading="lazy"
           />
+
         </figure>
 
+
         <figure class="photo photo-wide reveal">
+
           <img
             src="images/photo-12.jpg"
             alt="Aaron and Tanya special memory"
             loading="lazy"
           />
+
         </figure>
+
+
       </div>
     </section>
 
-<!-- SCRIPTURE + RSVP -->
-<section class="final-rsvp section" id="rsvp">
-  <div class="section-inner narrow reveal">
-    <div class="scripture-block">
-      <blockquote>
-        <p>“What therefore God hath joined together, let not man put asunder.”</p>
-        <cite>— Matthew 19:6</cite>
-      </blockquote>
 
-      <blockquote>
-        <p>“I found him whom my soul loveth.”</p>
-        <cite>— Song of Solomon 3:4</cite>
-      </blockquote>
 
-      <blockquote>
-        <p>“You are altogether beautiful, my love; there is no flaw in you.”</p>
-        <cite>— Song of Solomon 4:7</cite>
-      </blockquote>
-    </div>
+    <!-- =========================
+         SCRIPTURE + RSVP
+         ========================= -->
 
-    <p class="eyebrow champagne">We hope you’ll join us</p>
-    <p>Kindly RSVP by August 30, 2026.</p>
-
-    <a
-      class="button button-light"
-      href="https://docs.google.com/forms/d/e/1FAIpQLSeoKAJlu4cMqBg7XUTzzEQyMOEs7BAewZNlyhiRSMKCElDC9w/viewform?usp=publish-editor"
-      target="_blank"
-      rel="noopener noreferrer"
+    <section
+      class="final-rsvp section"
+      id="rsvp"
     >
-      RSVP to the celebration
-    </a>
-  </div>
-</section>
-</main>
 
-<footer>
-  <p>Aaron &amp; Tanya</p>
-  <p>September 12, 2026</p>
-</footer>
+      <div class="section-inner narrow reveal">
 
-<!-- LOCAL WEDDING MUSIC
-     The MP3 begins buffering when the guest presses the entry button.
-     script.js starts playback when the completed hold is released. -->
-<audio
-  id="weddingAudio"
-  preload="none"
-  playsinline
-  loop
-  aria-hidden="true"
->
-  <source
-    src="audio/wedding-music.mp3"
-    type="audio/mpeg"
-  />
-</audio>
 
-<script src="script.js"></script>
+        <div class="scripture-block">
+
+
+          <blockquote>
+
+            <p>
+              “What therefore God hath joined together,
+              let not man put asunder.”
+            </p>
+
+            <cite>
+              — Matthew 19:6
+            </cite>
+
+          </blockquote>
+
+
+
+          <blockquote>
+
+            <p>
+              “I found him whom my soul loveth.”
+            </p>
+
+            <cite>
+              — Song of Solomon 3:4
+            </cite>
+
+          </blockquote>
+
+
+
+          <blockquote>
+
+            <p>
+              “You are altogether beautiful,
+              my love; there is no flaw in you.”
+            </p>
+
+            <cite>
+              — Song of Solomon 4:7
+            </cite>
+
+          </blockquote>
+
+
+        </div>
+
+
+        <p class="eyebrow champagne">
+          We hope you’ll join us
+        </p>
+
+
+        <p>
+          Kindly RSVP by August 30, 2026.
+        </p>
+
+
+        <a
+          class="button button-light"
+          href="https://docs.google.com/forms/d/e/1FAIpQLSeoKAJlu4cMqBg7XUTzzEQyMOEs7BAewZNlyhiRSMKCElDC9w/viewform?usp=publish-editor"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          RSVP to the celebration
+        </a>
+
+
+      </div>
+    </section>
+
+
+  </main>
+
+
+
+  <!-- =========================
+       FOOTER
+       ========================= -->
+
+  <footer>
+
+    <p>
+      Aaron &amp; Tanya
+    </p>
+
+    <p>
+      September 12, 2026
+    </p>
+
+  </footer>
+
+
+
+  <!-- =========================
+       LOCAL WEDDING MUSIC
+       ========================= -->
+
+  <audio
+    id="weddingAudio"
+    preload="none"
+    playsinline
+    loop
+    aria-hidden="true"
+  >
+
+    <source
+      src="audio/wedding-music.mp3"
+      type="audio/mpeg"
+    />
+
+  </audio>
+
+
+
+  <script src="script.js"></script>
+
 </body>
 </html>
