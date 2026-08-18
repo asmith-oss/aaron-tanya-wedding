@@ -6,10 +6,10 @@ METHOD:PUBLISH
 BEGIN:VEVENT
 UID:aaron-tanya-wedding-20260912@example.com
 DTSTAMP:20260818T230000Z
-DTSTART:20260912T190000Z
+DTSTART:20260912T193000Z
 DTEND:20260912T210000Z
 SUMMARY:Aaron & Tanya's Wedding
-DESCRIPTION:Wedding ceremony at the Gazebo in Heisler Park.
+DESCRIPTION:Please plan to arrive by 12:30 PM. Ceremony begins at 1:00 PM at the Gazebo in Heisler Park. Metered public parking is available throughout the area. Carpooling is encouraged\, and we recommend allowing plenty of time to find parking and walk to the Gazebo.
 LOCATION:The Gazebo at Heisler Park\, Lower Cliff Drive\, Laguna Beach\, CA
 URL:https://docs.google.com/forms/d/e/1FAIpQLSeoKAJlu4cMqBg7XUTzzEQyMOEs7BAewZNlyhiRSMKCElDC9w/viewform?usp=publish-editor
 END:VEVENT
